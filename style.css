@@ -1,0 +1,496 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+}
+
+/* 音乐控制样式 */
+.music-box {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    z-index: 999;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.music-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: rotate 3s linear infinite;
+}
+
+.music-img.paused {
+    animation-play-state: paused;
+}
+
+/* 文字内容样式 */
+.content {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.5s;
+    width: calc(100% - 40px);
+}
+
+.content.show {
+    opacity: 1;
+}
+
+.text-box {
+    font-family: 'Consolas', monospace;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #fff;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.code-line {
+    margin: 5px 0;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.code-line.show {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 0.3s ease;
+}
+
+.indent {
+    margin-left: 20px;
+}
+
+/* 代码高亮颜色 */
+.code-comment {
+    color: #6a9955;  /* 绿色注释 */
+}
+
+.code-keyword {
+    color: #569cd6;  /* 蓝色关键字 */
+}
+
+.code-function {
+    color: #dcdcaa;  /* 黄色函数名 */
+}
+
+.code-variable {
+    color: #9cdcfe;  /* 浅蓝色变量名 */
+}
+
+.code-string {
+    color: #ce9178;  /* 橙色字符串 */
+}
+
+.typing-text {
+    font-size: 24px;
+    color: #fff;
+    margin: 10px 0;
+    height: 30px;
+    line-height: 30px;
+}
+
+.typing-text:first-child {
+    font-size: 32px;
+    color: #ff0000;
+    text-shadow: 0 0 10px #ff0000;
+}
+
+.typing-text::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 20px;
+    background: #fff;
+    margin-left: 5px;
+    animation: blink 0.7s infinite;
+}
+
+.typing-text::before {
+    content: attr(data-text);
+    position: absolute;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 0s steps(50) forwards;
+    animation-play-state: paused;
+}
+
+.typing-text.start::before {
+    animation-duration: 1.5s;
+    animation-play-state: running;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink {
+    50% { opacity: 0 }
+}
+
+/* 删除重复的 .text-box 相关样式，只保留打字机效果的样式 */
+.text-box h1.typing {
+    font-size: 2.5em;
+    margin: 0;
+    color: #ff0000;
+    text-shadow: 0 0 10px #ff0000;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #fff;
+    width: 0;
+    animation: 
+        typing-title 2s steps(4) forwards,
+        cursor 0.5s step-end infinite;
+}
+
+.text-box p.typing-1,
+.text-box p.typing-2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+    color: #ffd700;
+    text-shadow: 0 0 5px #ffd700;
+    white-space: nowrap;
+    overflow: hidden;
+    opacity: 0;
+    border-right: 3px solid #fff;
+    width: 0;
+}
+
+.text-box p.typing-1.show {
+    opacity: 1;
+    animation: 
+        typing-text1 3s steps(8) forwards,
+        cursor 0.5s step-end infinite;
+}
+
+.text-box p.typing-2.show {
+    opacity: 1;
+    animation: 
+        typing-text2 3s steps(12) forwards,
+        cursor 0.5s step-end infinite;
+}
+
+/* 调整打字动画宽度 */
+@keyframes typing-title {
+    from { width: 0; }
+    to { width: 5em; } /* 使用em单位，更灵活 */
+}
+
+@keyframes typing-text1 {
+    from { width: 0; }
+    to { width: 8em; }
+}
+
+@keyframes typing-text2 {
+    from { width: 0; }
+    to { width: 12em; }
+}
+
+@keyframes cursor {
+    from, to { border-color: transparent; }
+    50% { border-color: #fff; }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .content {
+        top: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+    }
+    
+    .text-box h1.typing {
+        font-size: 2em;
+    }
+    
+    .text-box p.typing-1,
+    .text-box p.typing-2 {
+        font-size: 1em;
+    }
+
+    .code-line {
+        margin: 3px 0;
+    }
+
+    .indent {
+        margin-left: 15px;
+    }
+}
+
+/* 超小屏幕设备 */
+@media (max-width: 320px) {
+    .text-box {
+        font-size: 12px;
+    }
+
+    .indent {
+        margin-left: 10px;
+    }
+}
+
+/* 横屏模式 */
+@media (orientation: landscape) and (max-height: 500px) {
+    .content {
+        top: 5px;
+    }
+
+    .text-box {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+}
+
+/* 画布样式 */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* 动画关键帧 */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .content {
+        top: 40px;
+        left: 30px;
+    }
+    
+    .text-box h1 {
+        font-size: 3em;
+    }
+    .text-box p {
+        font-size: 1.2em;
+    }
+}
+
+/* 添加点燃按钮和初始画面样式 */
+.start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s;
+}
+
+.lighter {
+    text-align: center;
+    cursor: pointer;
+    padding: 20px;
+}
+
+.fuse {
+    position: relative;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.fuse-line {
+    width: 4px;
+    height: 100%;
+    background: #8B4513;
+    margin: 0 auto;
+    position: relative;
+}
+
+.spark {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #ff0, #f50);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: sparkle 0.6s infinite;
+}
+
+.rocket {
+    font-size: 50px;
+    margin: 20px 0;
+    animation: shake 0.5s infinite;
+}
+
+.lighter p {
+    color: #fff;
+    font-size: 1.5em;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    margin-top: 20px;
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.8;
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-2px);
+    }
+    75% {
+        transform: translateX(2px);
+    }
+}
+
+.start-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 添加点击效果 */
+.lighter:active .spark {
+    animation: none;
+    transform: translate(-50%, 100%);
+    transition: transform 0.5s;
+}
+
+.lighter:active .rocket {
+    animation: launch 1s forwards;
+}
+
+@keyframes launch {
+    to {
+        transform: translateY(-100vh);
+    }
+}
+
+/* 修改祝福语样式 */
+.greeting {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 3;
+    text-align: center;
+    opacity: 0;
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.greeting.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.greeting h2 {
+    font-size: 5em;
+    font-family: "Ma Shan Zheng", cursive;
+    background: linear-gradient(120deg, #ff0000, #ff6b6b, #ffd700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0;
+    padding: 30px 50px;
+    white-space: nowrap;
+    position: relative;
+    text-shadow: 
+        2px 2px 10px rgba(255, 0, 0, 0.3),
+        -2px -2px 10px rgba(255, 215, 0, 0.3);
+}
+
+.greeting h2::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 3px solid #ffd700;
+    border-radius: 20px;
+    box-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.5),
+        inset 0 0 20px rgba(255, 215, 0, 0.5);
+    z-index: -1;
+    animation: borderGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlow {
+    from {
+        box-shadow: 
+            0 0 20px rgba(255, 215, 0, 0.5),
+            inset 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+    to {
+        box-shadow: 
+            0 0 40px rgba(255, 215, 0, 0.8),
+            inset 0 0 40px rgba(255, 215, 0, 0.8);
+    }
+}
+
+/* 添加出场动画 */
+@keyframes textFloat {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.greeting.show h2 {
+    animation: 
+        textFloat 1s ease-out,
+        textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+    from {
+        filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.5));
+    }
+    to {
+        filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+    }
+} 
