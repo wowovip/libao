@@ -82,9 +82,10 @@ class Firework {
         if (!this.isAutomatic) {
             explodedCount++;
             
-            // 在第8个烟花爆炸时显示祝福语
+            // 在第8个烟花爆炸时显示祝福语并折叠开头文字
             if (explodedCount === 8) {
                 greeting.classList.add('show');
+                content.classList.add('fold');  // 添加折叠效果
                 createCelebrationFireworks();
             }
         }

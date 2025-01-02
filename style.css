@@ -51,6 +51,8 @@ body {
 
 .content.show {
     opacity: 1;
+    transform: none;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .text-box {
@@ -96,10 +98,10 @@ body {
 }
 
 .typing-text {
-    font-size: 28px;
+    font-size: 24px;
     font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
     color: #fff;
-    margin: 20px 0;
+    margin: 18px 0;
     text-align: left;
     opacity: 0;
     transform: translateX(-20px);
@@ -115,7 +117,7 @@ body {
 
 /* 第一行特殊样式 */
 .typing-text:first-child {
-    font-size: 36px;
+    font-size: 32px;
     background: linear-gradient(45deg, #ff4d4d, #ff9966);
     -webkit-background-clip: text;
     background-clip: text;
@@ -461,7 +463,6 @@ canvas {
 .greeting h2 {
     font-size: 2.8em;
     font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    color: #fff;
     margin: 0;
     padding: 25px 40px;
     background: rgba(255, 255, 255, 0.1);
@@ -471,10 +472,20 @@ canvas {
     border: 1px solid rgba(255, 255, 255, 0.2);
     letter-spacing: 2px;
     white-space: nowrap;
+    text-align: center;
 }
 
-.greeting h2 span {
-    background: linear-gradient(120deg, #ff3c7e, #ff6d3f, #ffc53d);
+.greeting h2 .name {
+    background: linear-gradient(120deg, #ff3c7e, #ff6d3f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+    text-shadow: none;
+}
+
+.greeting h2 .wish {
+    background: linear-gradient(120deg, #ff6d3f, #ffc53d);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -578,5 +589,22 @@ canvas {
     .typing-text:first-child {
         font-size: 28px;
         margin-bottom: 15px;
+    }
+}
+
+/* 添加折叠动画效果 */
+.content.fold {
+    animation: foldUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    transform-origin: top left;
+}
+
+@keyframes foldUp {
+    0% {
+        transform: none;
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20px) scale(0.8);
+        opacity: 0;
     }
 } 
