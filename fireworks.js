@@ -78,14 +78,15 @@ class Firework {
             sound3.play().catch(e => console.log('音频播放失败'));
         };
 
-        // 增加爆炸计数
-        explodedCount++;
-        
-        // 在第十个烟花爆炸时显示祝福语
-        if (explodedCount === 10) {
-            greeting.classList.add('show');
-            // 创建额外的庆祝烟花
-            createCelebrationFireworks();
+        // 只在用户点击时增加计数
+        if (!this.isAutomatic) {
+            explodedCount++;
+            
+            // 在第8个烟花爆炸时显示祝福语
+            if (explodedCount === 8) {
+                greeting.classList.add('show');
+                createCelebrationFireworks();
+            }
         }
 
         for (let i = 0; i < particleCount; i++) {
@@ -161,25 +162,41 @@ function animate() {
 // 开始动画
 animate();
 
-// 添加点燃功能
+// 修改点燃功能
 startScreen.addEventListener('click', () => {
     startScreen.classList.add('hidden');
     
-    // 显示内容区域
     setTimeout(() => {
         content.classList.add('show');
         
-        // 逐行显示代码
-        codeLines.forEach((line, index) => {
+        // 逐行显示祝福语
+        const texts = document.querySelectorAll('.typing-text');
+        texts.forEach((text, index) => {
             setTimeout(() => {
-                line.classList.add('show');
-            }, index * 100); // 每行间隔100ms
+                text.textContent = text.getAttribute('data-text');
+                text.classList.add('show');
+                
+                // 每显示一行文字就放一组烟花
+                createAutoFireworks(3);
+            }, index * 1200);
         });
         
-        // 创建初始烟花
         createInitialFireworks();
     }, 500);
 });
+
+// 添加自动放烟花函数
+function createAutoFireworks(count) {
+    for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+            const x = Math.random() * canvas.width;
+            const targetY = canvas.height * (0.2 + Math.random() * 0.3);
+            const firework = new Firework(x, targetY);
+            firework.isAutomatic = true;  // 标记为自动烟花
+            fireworks.push(firework);
+        }, i * 200); // 每个烟花间隔200ms
+    }
+}
 
 // 添加初始烟花函数
 function createInitialFireworks() {
@@ -194,11 +211,13 @@ function createInitialFireworks() {
     }
 }
 
-// 修改点击事件，只在开始界面隐藏后才能点击创建烟花
+// 修改点击事件，让烟花随机出现
 canvas.addEventListener('click', (e) => {
     if (startScreen.classList.contains('hidden')) {
-        const targetY = e.clientY;
-        const firework = new Firework(e.clientX, targetY);
+        const x = Math.random() * canvas.width;
+        const targetY = canvas.height * (0.2 + Math.random() * 0.4);
+        const firework = new Firework(x, targetY);
+        firework.isAutomatic = false;  // 标记为手动烟花
         fireworks.push(firework);
     }
 });
@@ -233,7 +252,7 @@ function createCelebrationFireworks() {
         setTimeout(() => {
             const x = Math.random() * canvas.width;
             const targetY = canvas.height * 0.3 + Math.random() * canvas.height * 0.2;
-            const firework = new Firework(x, targetY);
+            const firework = new FireWork(x, targetY);
             fireworks.push(firework);
         }, i * 200);
     }

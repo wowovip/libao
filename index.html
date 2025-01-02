@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新年快乐</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <div class="container">
-        <audio id="boom" src="sounds/1.mp3" preload="auto"></audio>
-        <audio id="boom2" src="sounds/2.mp3" preload="auto"></audio>
-        <audio id="boom3" src="sounds/3.mp3" preload="auto"></audio>
+        <audio id="boom" src="./sounds/1.MP3" preload="auto"></audio>
+        <audio id="boom2" src="./sounds/2.MP3" preload="auto"></audio>
+        <audio id="boom3" src="./sounds/3.mp3" preload="auto"></audio>
 
         <div class="start-screen" id="startScreen">
             <div class="lighter">
@@ -27,51 +27,21 @@
 
         <div class="content" id="content">
             <div class="text-box">
-                <div class="code-line">
-                    <span class="code-comment">// 2025年春节</span>
-                </div>
-                <div class="code-line">
-                    <span class="code-keyword">const</span> <span class="code-variable">year</span> = <span class="code-string">"2025"</span>;
-                </div>
-                <div class="code-line">
-                    <span class="code-keyword">const</span> <span class="code-variable">wish</span> = <span class="code-string">"新年快乐"</span>;
-                </div>
-                <div class="code-line">
-                    <span class="code-keyword">function</span> <span class="code-function">sendWishes</span>() {
-                </div>
-                <div class="code-line indent">
-                    <span class="code-keyword">return</span> <span class="code-string">"恭喜发财 万事如意"</span>;
-                </div>
-                <div class="code-line">
-                    }
-                </div>
-                <div class="code-line">
-                    <span class="code-keyword">function</span> <span class="code-function">snakeYear</span>() {
-                </div>
-                <div class="code-line indent">
-                    <span class="code-keyword">return</span> <span class="code-string">"祝您蛇年大吉 前程似锦"</span>;
-                </div>
-                <div class="code-line">
-                    }
-                </div>
-                <div class="code-line">
-                    <span class="code-keyword">function</span> <span class="code-function">blessing</span>() {
-                </div>
-                <div class="code-line indent">
-                    <span class="code-keyword">return</span> <span class="code-string">"步步高升 财运亨通"</span>;
-                </div>
-                <div class="code-line">
-                    }
-                </div>
+                <div class="typing-text" data-text="2025年春节 ✨"></div>
+                <div class="typing-text" data-text="新年快乐 🎊"></div>
+                <div class="typing-text" data-text="恭喜发财 万事如意 💰"></div>
+                <div class="typing-text" data-text="祝您蛇年大吉 前程似锦 ✨"></div>
+                <div class="typing-text" data-text="步步高升 财运亨通 🌟"></div>、
+                <div class="typing-text" data-text="连续点击屏幕有惊喜哦！"></div>
             </div>
         </div>
 
         <div class="greeting" id="greeting">
-            <h2>李宝，新年快乐哇！</h2>
+            <h2>李宝，<span>新年快乐</span>哇！</h2>
         </div>
 
         <canvas id="fireworks"></canvas>
     </div>
-    <script src="fireworks.js"></script>
+    <script src="./fireworks.js"></script>
 </body>
 </html> 

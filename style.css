@@ -38,12 +38,15 @@ body {
 /* 文字内容样式 */
 .content {
     position: fixed;
-    top: 20px;
-    left: 20px;
+    top: 30px;
+    left: 30px;
+    transform: none;
     z-index: 2;
     opacity: 0;
     transition: opacity 0.5s;
-    width: calc(100% - 40px);
+    width: 90%;
+    max-width: 600px;
+    text-align: left;
 }
 
 .content.show {
@@ -51,12 +54,8 @@ body {
 }
 
 .text-box {
-    font-family: 'Consolas', monospace;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #fff;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    text-align: left;
+    padding: 20px;
 }
 
 .code-line {
@@ -97,51 +96,90 @@ body {
 }
 
 .typing-text {
-    font-size: 24px;
+    font-size: 28px;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
     color: #fff;
-    margin: 10px 0;
-    height: 30px;
-    line-height: 30px;
+    margin: 20px 0;
+    text-align: left;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
 }
 
+.typing-text.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 第一行特殊样式 */
 .typing-text:first-child {
-    font-size: 32px;
-    color: #ff0000;
-    text-shadow: 0 0 10px #ff0000;
+    font-size: 36px;
+    background: linear-gradient(45deg, #ff4d4d, #ff9966);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-shadow: none;
+    position: relative;
 }
 
-.typing-text::after {
+/* 添加底部装饰线 */
+.typing-text:first-child::after {
     content: '';
-    display: inline-block;
-    width: 2px;
-    height: 20px;
-    background: #fff;
-    margin-left: 5px;
-    animation: blink 0.7s infinite;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(45deg, #ff4d4d, #ff9966);
+    border-radius: 3px;
+    animation: expandLine 0.8s ease forwards;
+}
+
+@keyframes expandLine {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100px;
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .typing-text {
+        font-size: 24px;
+        margin: 15px 0;
+    }
+    
+    .typing-text:first-child {
+        font-size: 32px;
+        margin-bottom: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .typing-text {
+        font-size: 20px;
+        margin: 12px 0;
+    }
+    
+    .typing-text:first-child {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+}
+
+/* 删除原来的光标相关样式 */
+.typing-text::after {
+    display: none;
 }
 
 .typing-text::before {
-    content: attr(data-text);
-    position: absolute;
-    width: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    animation: typing 0s steps(50) forwards;
-    animation-play-state: paused;
-}
-
-.typing-text.start::before {
-    animation-duration: 1.5s;
-    animation-play-state: running;
-}
-
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
-
-@keyframes blink {
-    50% { opacity: 0 }
+    display: none;
 }
 
 /* 删除重复的 .text-box 相关样式，只保留打字机效果的样式 */
@@ -210,9 +248,8 @@ body {
 /* 响应式调整 */
 @media (max-width: 768px) {
     .content {
-        top: 10px;
-        left: 10px;
-        width: calc(100% - 20px);
+        top: 20px;
+        left: 20px;
     }
     
     .text-box h1.typing {
@@ -412,9 +449,8 @@ canvas {
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     z-index: 3;
-    text-align: center;
     opacity: 0;
-    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .greeting.show {
@@ -423,48 +459,57 @@ canvas {
 }
 
 .greeting h2 {
-    font-size: 5em;
-    font-family: "Ma Shan Zheng", cursive;
-    background: linear-gradient(120deg, #ff0000, #ff6b6b, #ffd700);
+    font-size: 2.8em;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 25px 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+.greeting h2 span {
+    background: linear-gradient(120deg, #ff3c7e, #ff6d3f, #ffc53d);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    margin: 0;
-    padding: 30px 50px;
-    white-space: nowrap;
-    position: relative;
-    text-shadow: 
-        2px 2px 10px rgba(255, 0, 0, 0.3),
-        -2px -2px 10px rgba(255, 215, 0, 0.3);
+    font-weight: 600;
+    text-shadow: none;
 }
 
-.greeting h2::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.1);
-    border: 3px solid #ffd700;
-    border-radius: 20px;
-    box-shadow: 
-        0 0 20px rgba(255, 215, 0, 0.5),
-        inset 0 0 20px rgba(255, 215, 0, 0.5);
-    z-index: -1;
-    animation: borderGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes borderGlow {
-    from {
-        box-shadow: 
-            0 0 20px rgba(255, 215, 0, 0.5),
-            inset 0 0 20px rgba(255, 215, 0, 0.5);
+/* 添加动画效果 */
+@keyframes floatAnimation {
+    0%, 100% {
+        transform: translateY(0);
     }
-    to {
-        box-shadow: 
-            0 0 40px rgba(255, 215, 0, 0.8),
-            inset 0 0 40px rgba(255, 215, 0, 0.8);
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.greeting.show h2 {
+    animation: floatAnimation 3s ease-in-out infinite;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .greeting h2 {
+        font-size: 2.2em;
+        padding: 20px 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .greeting h2 {
+        font-size: 1.8em;
+        padding: 15px 25px;
+        white-space: normal;
+        text-align: center;
     }
 }
 
@@ -492,5 +537,46 @@ canvas {
     }
     to {
         filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+    }
+}
+
+/* 添加响应式样式 */
+@media (max-width: 768px) {
+    .greeting h2 {
+        font-size: 2em; /* 手机上更小的字体 */
+        padding: 15px;
+    }
+}
+
+/* 超小屏幕 */
+@media (max-width: 320px) {
+    .greeting h2 {
+        font-size: 1.5em; /* 更小屏幕上的字体 */
+        padding: 10px;
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .typing-text {
+        font-size: 24px;
+        margin: 12px 0;
+    }
+    
+    .typing-text:first-child {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .typing-text {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+    
+    .typing-text:first-child {
+        font-size: 28px;
+        margin-bottom: 15px;
     }
 } 
